@@ -35,8 +35,8 @@ class Board:
                 pygame.draw.rect(screen, cell_color, (cell_x, cell_y, self.cell_size - border_width, self.cell_size - border_width))
     
     def click(self, x, y):
-        row = x // CELL_SIZE
-        column = y // CELL_SIZE
+        row = x // self.cell_size
+        column = y // self.cell_size
         
         self.cells[row][column] = not self.cells[row][column]
     
