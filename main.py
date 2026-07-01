@@ -48,12 +48,23 @@ class Board:
 
 
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
+dragging = False
+
 while running:
+    mx, my = pygame.mouse.get_pos()
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            board.click(*pygame.mouse.get_pos())
+            if event.button == 1:
+                dragging = True
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                dragging = False
+        
+        if dragging:
+            board.click(mx, my)
 
     board.draw(SCREEN, 1)
 
