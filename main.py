@@ -33,20 +33,12 @@ class Board:
         for column in range(self.columns):
             for row in range(self.rows):
                 cell = self.cells[column][row]
-                cell_color = dead_color if not cell else alive_color
-                cell_x = column * self.cell_size
-                cell_y = row * self.cell_size
+                color = dead_color if not cell else alive_color
+                cx = column * self.cell_size
+                cy = row * self.cell_size
+                width = self.cell_size - border_width
 
-                pygame.draw.rect(
-                    screen,
-                    cell_color,
-                    (
-                        cell_x,
-                        cell_y,
-                        self.cell_size - border_width,
-                        self.cell_size - border_width,
-                    ),
-                )
+                pygame.draw.rect(screen, color, (cx, cy, width, width))
 
     def click(self, x, y):
         row = x // self.cell_size
