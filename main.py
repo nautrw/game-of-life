@@ -15,23 +15,24 @@ class Board:
         self.rows = height // cell_size
         self.columns = width // cell_size
         self.cell_size = cell_size
+        # This way, the cell grids work more like pygame coordinates where
+        # +x moves right but +y moves down
         self.cells = [
-            [False for _ in range(self.columns)]
-            for _ in range(self.rows)
+            [False for _ in range(self.rows)]
+            for _ in range(self.columns)
         ]
-        self.cells[0][1] = True
     
     def draw(self, screen, border_width=1, dead_color="black", alive_color="white", border_color="gray20"):
         screen.fill(border_color)
         
-        for row in range(self.rows):
-            for column in range(self.columns):
-                cell = self.cells[row][column]
+        for column in range(self.columns):
+            for row in range(self.rows):
+                cell = self.cells[column][row]
                 cell_color = dead_color if not cell else alive_color
-                x = column * self.cell_size
-                y = row * self.cell_size
+                cell_x = column * self.cell_size
+                cell_y = row * self.cell_size
                 
-                pygame.draw.rect(screen, cell_color, (x, y, self.cell_size - border_width, self.cell_size - border_width))
+                pygame.draw.rect(screen, cell_color, (cell_x, cell_y, self.cell_size - border_width, self.cell_size - border_width))
 
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
 while running:
