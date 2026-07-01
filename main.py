@@ -40,11 +40,22 @@ class Board:
 
                 pygame.draw.rect(screen, color, (cx, cy, width, width))
 
-    def click(self, x, y):
+    def click(self, x, y, toggle=True):
+        # fixes this bug where the user can move the mouse out of the window
+        # to the right and it keeps drawing but wrapped around
+        if x < 0 or y < 0:
+            return
+        
         row = x // self.cell_size
         column = y // self.cell_size
 
-        self.cells[row][column] = not self.cells[row][column]
+        try:
+            if toggle:
+                self.cells[row][column] = not self.cells[row][column]
+            else:
+                self.cells[row][column] = True
+        except IndexError:
+            pass
 
 
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
@@ -64,7 +75,7 @@ while running:
                 dragging = False
         
         if dragging:
-            board.click(mx, my)
+            board.click(mx, my, False)
 
     board.draw(SCREEN, 1)
 
