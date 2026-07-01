@@ -33,12 +33,20 @@ class Board:
                 cell_y = row * self.cell_size
                 
                 pygame.draw.rect(screen, cell_color, (cell_x, cell_y, self.cell_size - border_width, self.cell_size - border_width))
-
+    
+    def click(self, x, y):
+        row = x // CELL_SIZE
+        column = y // CELL_SIZE
+        
+        self.cells[row][column] = not self.cells[row][column]
+    
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            board.click(*pygame.mouse.get_pos())
 
     board.draw(SCREEN, 1)
     
