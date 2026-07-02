@@ -59,8 +59,8 @@ class Board:
         if x < 0 or y < 0:
             return
         
-        row = x // self.cell_size
         column = y // self.cell_size
+        row = x // self.cell_size
 
         try:
             self.cells[row][column] = new_state
