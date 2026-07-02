@@ -9,16 +9,64 @@ WINDOW_HEIGHT = 610
 pygame.init()
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
-FPS = 12
-running = True
+FPS = 8
 SPEED_PRESETS = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 FONT = pygame.font.Font('freesansbold.ttf', 10)
+THEMES = [
+    {
+        "dead_color": "black",
+        "alive_color": "white",
+        "border_color": "gray20",
+    },
+    {
+        "dead_color": "black",
+        "alive_color": "lime",
+        "border_color": "darkgreen",
+    },
+    {
+        "dead_color": "midnightblue",
+        "alive_color": "deepskyblue",
+        "border_color": "steelblue4",
+    },
+    {
+        "dead_color": "midnightblue",
+        "alive_color": "orange",
+        "border_color": "orangered4",
+    },
+    {
+        "dead_color": "black",
+        "alive_color": "red",
+        "border_color": "darkred",
+    },
+    {
+        "dead_color": "gray10",
+        "alive_color": "cyan",
+        "border_color": "steelblue",
+    },
+    {
+        "dead_color": "gray8",
+        "alive_color": "orchid",
+        "border_color": "mediumpurple4",
+    },
+    {
+        "dead_color": "gray10",
+        "alive_color": "hotpink",
+        "border_color": "deeppink4",
+    },
+    {
+        "dead_color": "#002b36",
+        "alive_color": "#b58900",
+        "border_color": "#073642",
+    },
+]
 
+running = True
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
 dragging_left = False
 dragging_right = False
 sim_running = False
 grid_width = 1
+theme_index = 0
 
 def write_statusline(board, sim_running):
     text = FONT.render(
@@ -65,7 +113,13 @@ while running:
             # ---------- Grid Settings ----------   
             elif event.key == pygame.K_g:
                 grid_width = 0 if grid_width == 1 else 1
-        
+            # ---------- Color Settings ----------   
+            elif event.key == pygame.K_t:
+                if theme_index == len(THEMES) - 1:
+                    theme_index = 0
+                else:
+                    theme_index += 1
+             
         if dragging_left:
             board.click(mx, my)
         elif dragging_right:
@@ -75,7 +129,8 @@ while running:
         board.simulate()
     else:
         pass
-    board.draw(SCREEN, border_width=grid_width)
+    theme_colors = THEMES[theme_index]
+    board.draw(SCREEN, border_width=grid_width, **theme_colors)
     write_statusline(board, sim_running)
 
     pygame.display.flip()
