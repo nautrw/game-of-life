@@ -99,6 +99,7 @@ class Board:
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
 dragging_left = False
 dragging_right = False
+sim_running = False
 
 while running:
     mx, my = pygame.mouse.get_pos()
@@ -116,13 +117,19 @@ while running:
                 dragging_left = False
             elif event.button == 3:
                 dragging_right = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                sim_running = not sim_running
         
         if dragging_left:
             board.click(mx, my)
         elif dragging_right:
             board.click(mx, my, False)
 
-    board.simulate()
+    if sim_running:
+        board.simulate()
+    else:
+        pass
     board.draw(SCREEN)
 
     pygame.display.flip()
