@@ -73,8 +73,9 @@ class Board:
         for column in range(self.columns):
             for row in range(self.rows):
                 live_neighbors = count_live_neighbors(self.cells, column, row)
+                alive = self.cells[column][row]
                 
-                if self.cells[column][row]:
+                if alive:
                     # death by underpopulation or overpopulation
                     if live_neighbors < 2 or live_neighbors > 3:
                         temp_board[column][row] = False
