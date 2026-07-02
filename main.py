@@ -30,14 +30,17 @@ def count_live_neighbors(grid, column, row):
     
     return neighbors.count(True)
 
+def gen_empty_board(columns, rows):
+        # This way, the cell grids work more like pygame coordinates where
+        # +x moves right but +y moves down
+    return [[False for _ in range(rows)] for _ in range(columns)]
+
 class Board:
     def __init__(self, width, height, cell_size):
         self.rows = height // cell_size
         self.columns = width // cell_size
         self.cell_size = cell_size
-        # This way, the cell grids work more like pygame coordinates where
-        # +x moves right but +y moves down
-        self.cells = [[False for _ in range(self.rows)] for _ in range(self.columns)]
+        self.cells = gen_empty_board(self.columns, self.rows)
         self.cells[1][0] = True
         self.cells[1][1] = True
         self.cells[1][2] = True
@@ -95,6 +98,8 @@ class Board:
         
         self.cells = temp_board
     
+    def clear(self):
+        self.cells = gen_empty_board(self.columns, self.rows)
 
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
 dragging_left = False
@@ -120,6 +125,8 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 sim_running = not sim_running
+            elif event.key == pygame.K_c:
+                board.clear()
         
         if dragging_left:
             board.click(mx, my)
