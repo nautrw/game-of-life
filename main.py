@@ -14,16 +14,16 @@ running = True
 SPEED_PRESETS = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 FONT = pygame.font.Font('freesansbold.ttf', 10)
 
-
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
 dragging_left = False
 dragging_right = False
 sim_running = False
+grid_width = 1
 
 def write_statusline(board, sim_running):
     text = FONT.render(
         f"{'RUNNING' if sim_running else 'PAUSED'} | FPS: {FPS} |"
-        f"Generation: {board.generation} ", True, 'white')
+        f"Generation: {board.generation}", True, 'white')
     text_rect = text.get_rect()
     text_rect.topleft = (0, 600)
     SCREEN.blit(text, text_rect)
@@ -58,10 +58,13 @@ while running:
                 FPS += 1
             elif event.key == pygame.K_MINUS:
                 FPS -= 1 if FPS > 1 else 0
-            if event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4,
+            elif event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4,
                              pygame.K_5, pygame.K_6, pygame.K_7, pygame.K_8, 
                              pygame.K_9):
                 FPS = SPEED_PRESETS[int(pygame.key.name(event.key)) - 1]
+            # ---------- Grid Settings ----------   
+            elif event.key == pygame.K_g:
+                grid_width = 0 if grid_width == 1 else 1
         
         if dragging_left:
             board.click(mx, my)
@@ -72,7 +75,7 @@ while running:
         board.simulate()
     else:
         pass
-    board.draw(SCREEN)
+    board.draw(SCREEN, border_width=grid_width)
     write_statusline(board, sim_running)
 
     pygame.display.flip()
