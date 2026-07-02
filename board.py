@@ -2,7 +2,7 @@ import pygame
 
 def count_live_neighbors(grid, column, row):
     columns, rows = len(grid), len(grid[0])
-    neighbors = []
+    live_neighbors = 0
     
     # fmt: off 
     directions = [
@@ -16,9 +16,9 @@ def count_live_neighbors(grid, column, row):
         new_row, new_col = row + dr, column + dc
 
         if 0 <= new_row < rows and 0 <= new_col < columns:
-            neighbors.append(grid[new_col][new_row])
+            live_neighbors += 1
     
-    return neighbors.count(True)
+    return live_neighbors
 
 def gen_empty_board(columns, rows):
         # This way, the cell grids work more like pygame coordinates where
