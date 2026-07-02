@@ -20,6 +20,12 @@ dragging_left = False
 dragging_right = False
 sim_running = False
 
+def write_statusline(board):
+    text = FONT.render(f"Generation: {board.generation}", True, 'white')
+    text_rect = text.get_rect()
+    text_rect.topleft = (0, 600)
+    SCREEN.blit(text, text_rect)
+
 while running:
     mx, my = pygame.mouse.get_pos()
     
@@ -64,13 +70,8 @@ while running:
         board.simulate()
     else:
         pass
-
     board.draw(SCREEN)
-    
-    text = FONT.render(f"Generation: {board.generation}", True, 'white')
-    text_rect = text.get_rect()
-    text_rect.topleft = (0, 600)
-    SCREEN.blit(text, text_rect)
+    write_statusline(board)
 
     pygame.display.flip()
     clock.tick(FPS)
