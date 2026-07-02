@@ -82,8 +82,6 @@ class Board:
                     # death by underpopulation or overpopulation
                     if live_neighbors < 2 or live_neighbors > 3:
                         temp_board[column][row] = False
-                    else:
-                        pass  # cell lives on
                 else:
                     if live_neighbors == 3:
                         temp_board[column][row] = True  # cell reproduces
