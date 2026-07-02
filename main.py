@@ -8,7 +8,9 @@ WINDOW_HEIGHT = 600
 pygame.init()
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
+FPS = 12
 running = True
+SPEED_PRESETS = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 
 def count_live_neighbors(grid, column, row):
     columns, rows = len(grid), len(grid[0])
@@ -41,9 +43,6 @@ class Board:
         self.columns = width // cell_size
         self.cell_size = cell_size
         self.cells = gen_empty_board(self.columns, self.rows)
-        self.cells[1][0] = True
-        self.cells[1][1] = True
-        self.cells[1][2] = True
 
     def draw(
         self,
@@ -127,6 +126,15 @@ while running:
                 sim_running = not sim_running
             elif event.key == pygame.K_c:
                 board.clear()
+            elif event.key == pygame.K_EQUALS:
+                FPS += 1
+            elif event.key == pygame.K_MINUS:
+                FPS -= 1 if FPS > 1 else 0
+            if event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4,
+                             pygame.K_5, pygame.K_6, pygame.K_7, pygame.K_8, 
+                             pygame.K_9):
+                FPS = SPEED_PRESETS[int(pygame.key.name(event.key)) - 1]
+
         
         if dragging_left:
             board.click(mx, my)
@@ -140,6 +148,6 @@ while running:
     board.draw(SCREEN)
 
     pygame.display.flip()
-    clock.tick(12)
+    clock.tick(FPS)
 
 pygame.quit()
