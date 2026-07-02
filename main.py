@@ -9,6 +9,7 @@ WINDOW_HEIGHT = 610
 
 pygame.init()
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+pygame.display.set_caption("The game of life... Now with colors!")
 clock = pygame.time.Clock()
 FPS = 8
 SPEED_PRESETS = [1, 2, 4, 8, 16, 32, 64, 128, 256]
