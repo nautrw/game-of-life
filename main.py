@@ -1,3 +1,4 @@
+import time
 import pygame
 
 CELL_SIZE = 20
@@ -10,6 +11,11 @@ SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
 running = True
 
+def count_neighbors(grid, row, column):
+    live_neighbors = 0
+    neighbor_offsets = [(-1, -1), (0, -1), (1, -1), (-1,  0), (1,  0), (-1,  1), (0,  1), (1,  1)]   
+    for offset in neighbor_offsets:
+        offset_cell = grid[row + offset[0]][column + offset[1]]
 
 class Board:
     def __init__(self, width, height, cell_size):
@@ -19,6 +25,9 @@ class Board:
         # This way, the cell grids work more like pygame coordinates where
         # +x moves right but +y moves down
         self.cells = [[False for _ in range(self.rows)] for _ in range(self.columns)]
+        self.cells[1][0] = True
+        self.cells[1][1] = True
+        self.cells[1][2] = True
 
     def draw(
         self,
@@ -53,6 +62,31 @@ class Board:
             self.cells[row][column] = new_state
         except IndexError:
             pass
+    
+    def simulate(self):
+        neighbor_offsets = [(-1, -1), (0, -1), (1, -1), (-1,  0), (1,  0), (-1,  1), (0,  1), (1,  1)]   
+        
+        for column in range(self.columns):
+            for row in range(self.rows):
+                live_neighbors = 0
+                for offset in neighbor_offsets:
+                    new_row = (row + offset[0]) % self.rows
+                    new_column = (column + offset[1]) % self.columns
+
+                    try:
+                        if self.cells[new_row][new_column]:
+                            live_neighbors += 1
+                    except IndexError:
+                        pass
+                
+                if live_neighbors < 2:
+                    self.cells[column][row] = False # death by underpopulation
+                elif 2 > live_neighbors > 3:
+                    pass # cell lives on
+                elif live_neighbors > 3:
+                    self.cells[column][row] = False # death by overpopulation
+                elif not self.cells[column][row] and live_neighbors == 3:
+                    self.cells[column][row] = True # reproduction
 
 
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
@@ -81,6 +115,7 @@ while running:
         elif dragging_right:
             board.click(mx, my, False)
 
+    board.simulate()
     board.draw(SCREEN, 1)
 
     pygame.display.flip()
