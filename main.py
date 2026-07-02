@@ -10,8 +10,8 @@ SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
 running = True
 
-def count_live_neighbors(grid, row, column):
-    rows, columns = len(grid), len(grid[0])
+def count_live_neighbors(grid, column, row):
+    columns, rows = len(grid), len(grid[0])
     neighbors = []
     
     # fmt: off 
