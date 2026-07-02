@@ -1,10 +1,11 @@
 import pygame
 
+
 def count_live_neighbors(grid, column, row):
     columns, rows = len(grid), len(grid[0])
     live_neighbors = 0
-    
-    # fmt: off 
+
+    # fmt: off
     directions = [
         (-1, -1), (-1, 0), (-1, 1), # Top-left, Top, Top-right
         (0, -1),          (0, 1),   # Left, Right
@@ -17,13 +18,15 @@ def count_live_neighbors(grid, column, row):
 
         if 0 <= new_row < rows and 0 <= new_col < columns and grid[new_col][new_row]:
             live_neighbors += 1
-    
+
     return live_neighbors
 
+
 def gen_empty_board(columns, rows):
-        # This way, the cell grids work more like pygame coordinates where
-        # +x moves right but +y moves down
+    # This way, the cell grids work more like pygame coordinates where
+    # +x moves right but +y moves down
     return [[False for _ in range(rows)] for _ in range(columns)]
+
 
 class Board:
     def __init__(self, width, height, cell_size):
@@ -58,7 +61,7 @@ class Board:
         # to the right and it keeps drawing but wrapped around
         if x < 0 or y < 0:
             return
-        
+
         column = y // self.cell_size
         row = x // self.cell_size
 
@@ -66,27 +69,27 @@ class Board:
             self.cells[row][column] = new_state
         except IndexError:
             pass
-    
+
     def simulate(self):
         temp_board = [column.copy() for column in self.cells]
-        
+
         for column in range(self.columns):
             for row in range(self.rows):
                 live_neighbors = count_live_neighbors(self.cells, column, row)
                 alive = self.cells[column][row]
-                
+
                 if alive:
                     # death by underpopulation or overpopulation
                     if live_neighbors < 2 or live_neighbors > 3:
                         temp_board[column][row] = False
                     else:
-                        pass # cell lives on
+                        pass  # cell lives on
                 else:
                     if live_neighbors == 3:
-                        temp_board[column][row] = True # cell reproduces
-        
+                        temp_board[column][row] = True  # cell reproduces
+
         self.cells = temp_board
         self.generation += 1
-    
+
     def clear(self):
         self.cells = gen_empty_board(self.columns, self.rows)
