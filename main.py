@@ -73,6 +73,9 @@ while running:
                     theme_index = 0
                 else:
                     theme_index += 1
+            # ---------- Simulate 1 Generation ----------   
+            elif event.key == pygame.K_n:
+                board.simulate()
              
         if dragging_left:
             board.click(mx, my)
