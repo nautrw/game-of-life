@@ -11,11 +11,25 @@ SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
 running = True
 
-def count_neighbors(grid, row, column):
-    live_neighbors = 0
-    neighbor_offsets = [(-1, -1), (0, -1), (1, -1), (-1,  0), (1,  0), (-1,  1), (0,  1), (1,  1)]   
-    for offset in neighbor_offsets:
-        offset_cell = grid[row + offset[0]][column + offset[1]]
+def count_live_neighbors(grid, row, column):
+    rows, columns = len(grid), len(grid[0])
+    neighbors = []
+    
+    # fmt: off 
+    directions = [
+        (-1, -1), (-1, 0), (-1, 1), # Top-left, Top, Top-right
+        (0, -1),          (0, 1),   # Left, Right
+        (1, -1), (1, 0), (1, 1)     # Bottom-left, Bottom, Bottom-right
+    ]
+    # fmt: on
+
+    for dr, dc in directions:
+        new_row, new_col = row + dr, column + dc
+
+        if 0 <= new_row < rows and 0 <= new_col < columns:
+            neighbors.append(grid[new_col][new_row])
+    
+    return neighbors.count(True)
 
 class Board:
     def __init__(self, width, height, cell_size):
