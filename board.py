@@ -45,8 +45,8 @@ class Board:
 
         for column in range(self.columns):
             for row in range(self.rows):
-                cell = self.cells[column][row]
-                color = dead_color if not cell else alive_color
+                alive = self.cells[column][row]
+                color = alive_color if alive else dead_color
                 cx = column * self.cell_size
                 cy = row * self.cell_size
                 width = self.cell_size - border_width
