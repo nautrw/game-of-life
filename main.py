@@ -4,7 +4,7 @@ from board import Board, gen_empty_board
 CELL_SIZE = 20
 GRID_COLOR = (50, 50, 50)
 WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 600
+WINDOW_HEIGHT = 610
 
 pygame.init()
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -12,6 +12,7 @@ clock = pygame.time.Clock()
 FPS = 12
 running = True
 SPEED_PRESETS = [1, 2, 4, 8, 16, 32, 64, 128, 256]
+FONT = pygame.font.Font('freesansbold.ttf', 10)
 
 
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
@@ -53,18 +54,23 @@ while running:
                              pygame.K_5, pygame.K_6, pygame.K_7, pygame.K_8, 
                              pygame.K_9):
                 FPS = SPEED_PRESETS[int(pygame.key.name(event.key)) - 1]
-
         
         if dragging_left:
             board.click(mx, my)
         elif dragging_right:
             board.click(mx, my, False)
-
+    
     if sim_running:
         board.simulate()
     else:
         pass
+
     board.draw(SCREEN)
+    
+    text = FONT.render(f"Generation: {board.generation}", True, 'white')
+    text_rect = text.get_rect()
+    text_rect.topleft = (0, 600)
+    SCREEN.blit(text, text_rect)
 
     pygame.display.flip()
     clock.tick(FPS)
