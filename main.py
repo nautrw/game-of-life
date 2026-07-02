@@ -56,6 +56,7 @@ while running:
             # ---------- Clear Board ----------   
             elif event.key == pygame.K_c:
                 board.clear()
+                board.generation = 0
             # ---------- Speed Settings ----------   
             elif event.key == pygame.K_EQUALS:
                 FPS += 1
