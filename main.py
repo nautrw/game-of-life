@@ -71,10 +71,7 @@ while running:
                 grid_width = 0 if grid_width == 1 else 1
             # ---------- Color Settings ----------   
             elif event.key == pygame.K_t:
-                if theme_index == len(THEMES) - 1:
-                    theme_index = 0
-                else:
-                    theme_index += 1
+                theme_index = (theme_index + 1) % len(THEMES)
             # ---------- Simulate 1 Generation ----------   
             elif event.key == pygame.K_n:
                 board.simulate()
