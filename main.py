@@ -86,8 +86,7 @@ while running:
     
     if sim_running:
         board.simulate()
-    else:
-        pass
+
     theme_colors = THEMES[theme_index]
     board.draw(SCREEN, border_width=grid_width, **theme_colors)
     write_statusline(board, sim_running)
