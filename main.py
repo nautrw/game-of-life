@@ -1,4 +1,5 @@
 import pygame
+import random
 from board import Board, gen_empty_board
 from themes import THEMES
 
@@ -9,7 +10,7 @@ WINDOW_HEIGHT = 610
 
 pygame.init()
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-ICON = pygame.image.load("assets/icon.png")
+ICON = pygame.image.load(f"assets/icon{random.randint(1, 9)}.png")
 pygame.display.set_caption("The game of life... Now with colors!")
 pygame.display.set_icon(ICON)
 clock = pygame.time.Clock()
