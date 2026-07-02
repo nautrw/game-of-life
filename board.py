@@ -15,7 +15,7 @@ def count_live_neighbors(grid, column, row):
     for dr, dc in directions:
         new_row, new_col = row + dr, column + dc
 
-        if 0 <= new_row < rows and 0 <= new_col < columns:
+        if 0 <= new_row < rows and 0 <= new_col < columns and grid[new_col][new_row]:
             live_neighbors += 1
     
     return live_neighbors
