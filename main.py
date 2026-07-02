@@ -20,8 +20,10 @@ dragging_left = False
 dragging_right = False
 sim_running = False
 
-def write_statusline(board):
-    text = FONT.render(f"Generation: {board.generation}", True, 'white')
+def write_statusline(board, sim_running):
+    text = FONT.render(
+        f"{'RUNNING' if sim_running else 'PAUSED'} | FPS: {FPS} |"
+        f"Generation: {board.generation} ", True, 'white')
     text_rect = text.get_rect()
     text_rect.topleft = (0, 600)
     SCREEN.blit(text, text_rect)
@@ -71,7 +73,7 @@ while running:
     else:
         pass
     board.draw(SCREEN)
-    write_statusline(board)
+    write_statusline(board, sim_running)
 
     pygame.display.flip()
     clock.tick(FPS)
