@@ -1,4 +1,3 @@
-import time
 import pygame
 
 CELL_SIZE = 20
