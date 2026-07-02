@@ -30,7 +30,7 @@ theme_index = 0
 def write_statusline(board, sim_running):
     text = FONT.render(
         f"{'RUNNING' if sim_running else 'PAUSED'} | FPS: {FPS} |"
-        f"Generation: {board.generation}",
+        f"Generation: {board.generation} | Theme: {theme_index}",
         True,
         "white",
     )
