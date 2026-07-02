@@ -109,8 +109,10 @@ while running:
     mx, my = pygame.mouse.get_pos()
     
     for event in pygame.event.get():
+        # ---------- Quit ----------   
         if event.type == pygame.QUIT:
             running = False
+        # ---------- Dragging ----------   
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 dragging_left = True
@@ -122,10 +124,13 @@ while running:
             elif event.button == 3:
                 dragging_right = False
         elif event.type == pygame.KEYDOWN:
+            # ---------- Pausing ----------   
             if event.key == pygame.K_SPACE:
                 sim_running = not sim_running
+            # ---------- Clear Board ----------   
             elif event.key == pygame.K_c:
                 board.clear()
+            # ---------- Speed Settings ----------   
             elif event.key == pygame.K_EQUALS:
                 FPS += 1
             elif event.key == pygame.K_MINUS:
