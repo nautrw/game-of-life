@@ -16,7 +16,7 @@ ICON = pygame.image.load(f"assets/icon{random.randint(1, 9)}.png")
 pygame.display.set_caption("The game of life... Now with colors!")
 pygame.display.set_icon(ICON)
 clock = pygame.time.Clock()
-FONT = pygame.font.Font("freesansbold.ttf", 10)
+FONT = pygame.font.Font("freesansbold.ttf", 15)
 
 running = True
 board = Board(WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE)
