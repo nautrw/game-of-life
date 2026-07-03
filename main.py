@@ -3,6 +3,15 @@ import random
 from board import Board, gen_empty_board
 from themes import THEMES
 from time import sleep
+import sys, os
+
+# needed for pyinstaller to work
+def resource(relative_path):
+    base_path = getattr(
+        sys,
+        '_MEIPASS',
+        os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 CELL_SIZE = 20
 GRID_COLOR = (50, 50, 50)
@@ -12,7 +21,7 @@ FPS = 120
 
 pygame.init()
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-ICON = pygame.image.load(f"assets/icon{random.randint(1, 9)}.png")
+ICON = pygame.image.load(resource(f"./assets/icon{random.randint(1, 9)}.png"))
 pygame.display.set_caption("The game of life... Now with colors!")
 pygame.display.set_icon(ICON)
 clock = pygame.time.Clock()
