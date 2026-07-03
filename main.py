@@ -37,7 +37,7 @@ INTERVAL_PRESETS = [1000, 500, 250, 125, 62.5, 31.25, 15.625]
 def write_statusline(board, sim_running):
     text = FONT.render(
         f"{'RUNNING' if sim_running else 'PAUSED'} | "
-        f"Speed: {1000 / interval_ms:.0f} updates/sec | "
+        f"Speed: {1000 / interval_ms:.0f} gens./sec. | "
         f"Generation: {board.generation} | Theme: {theme_index}",
         True,
         "white",
