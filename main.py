@@ -82,18 +82,24 @@ while running:
     mx, my = pygame.mouse.get_pos()
 
     for event in pygame.event.get():
+        shift_pressed = bool(pygame.key.get_mods() & pygame.KMOD_SHIFT)
+        
         # ---------- Quit ----------
         if event.type == pygame.QUIT:
             running = False
         # ---------- Dragging ----------
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                dragging_left = True
+                if shift_pressed:
+                    dragging_right = True
+                else:
+                    dragging_left = True
             elif event.button == 3:
                 dragging_right = True
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 dragging_left = False
+                dragging_right = False
             elif event.button == 3:
                 dragging_right = False
         elif event.type == pygame.KEYDOWN:
@@ -131,10 +137,10 @@ while running:
             elif event.key == pygame.K_k:
                 keybinds = not keybinds
 
-        if dragging_left:
-            board.click(mx, my)
-        elif dragging_right:
-            board.click(mx, my, False)
+    if dragging_left:
+        board.click(mx, my)
+    elif dragging_right:
+        board.click(mx, my, False)
 
     if sim_running and interval_counter >= interval_ms:
         board.simulate()
