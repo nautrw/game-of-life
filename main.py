@@ -93,6 +93,7 @@ while running:
             # ---------- Simulate 1 Generation ----------
             elif event.key == pygame.K_n:
                 board.simulate()
+            # ---------- Statusline Toggle ----------
             elif event.key == pygame.K_s:
                 statusline = not statusline
 
