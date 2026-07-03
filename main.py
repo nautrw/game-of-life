@@ -26,6 +26,7 @@ sim_running = False
 grid_width = 1
 theme_index = 0
 statusline = True
+keybinds = False
 
 dt = 0
 interval_counter = 0
@@ -45,6 +46,23 @@ def write_statusline(board, sim_running):
     text_rect.topleft = (0, 0)
     SCREEN.blit(text, text_rect)
 
+def write_keybinds():
+    text = FONT.render(
+        "Left/Right Mouse - Set cell alive/dead \n"
+        "Space - Toggle simulation pause \n"
+        "k - Show this message \n"
+        "c - Clear board \n"
+        "1-7 - Change speed \n"
+        "g - Toggle grid \n"
+        "t - Cycle theme \n"
+        "n - Forward 1 generation \n"
+        "s - Toggle statusline \n",
+        True,
+        "white",
+    )
+    text_rect = text.get_rect()
+    text_rect.bottomleft = (0, 600)
+    SCREEN.blit(text, text_rect)
 
 while running:
     mx, my = pygame.mouse.get_pos()
@@ -95,6 +113,9 @@ while running:
             # ---------- Statusline Toggle ----------
             elif event.key == pygame.K_s:
                 statusline = not statusline
+            # ---------- Keybinds List Toggle ----------
+            elif event.key == pygame.K_k:
+                keybinds = not keybinds
 
         if dragging_left:
             board.click(mx, my)
@@ -110,6 +131,9 @@ while running:
 
     if statusline:
         write_statusline(board, sim_running)
+    
+    if keybinds:
+        write_keybinds()
 
     pygame.display.flip()
     dt = clock.tick(FPS)
