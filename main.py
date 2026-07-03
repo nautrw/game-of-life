@@ -41,6 +41,7 @@ def write_statusline(board, sim_running):
         f"Generation: {board.generation} | Theme: {theme_index}",
         True,
         "white",
+        THEMES[theme_index]["dead_color"]
     )
     text_rect = text.get_rect()
     text_rect.topleft = (0, 0)
@@ -50,7 +51,7 @@ def write_keybinds():
     text = FONT.render(
         "Left/Right Mouse - Set cell alive/dead \n"
         "Space - Toggle simulation pause \n"
-        "k - Show this message \n"
+        "k - Toggle this message \n"
         "c - Clear board \n"
         "1-7 - Change speed \n"
         "g - Toggle grid \n"
@@ -59,6 +60,7 @@ def write_keybinds():
         "s - Toggle statusline \n",
         True,
         "white",
+        THEMES[theme_index]["dead_color"]
     )
     text_rect = text.get_rect()
     text_rect.bottomleft = (0, 600)
