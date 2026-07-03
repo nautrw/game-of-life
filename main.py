@@ -26,7 +26,7 @@ sim_running = False
 grid_width = 1
 theme_index = 0
 statusline = True
-keybinds = False
+keybinds = True
 
 dt = 0
 interval_counter = 0
