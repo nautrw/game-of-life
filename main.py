@@ -2,11 +2,12 @@ import pygame
 import random
 from board import Board, gen_empty_board
 from themes import THEMES
+from time import sleep
 
 CELL_SIZE = 20
 GRID_COLOR = (50, 50, 50)
 WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 610
+WINDOW_HEIGHT = 600
 
 pygame.init()
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -35,7 +36,7 @@ def write_statusline(board, sim_running):
         "white",
     )
     text_rect = text.get_rect()
-    text_rect.topleft = (0, 600)
+    text_rect.topleft = (0, 0)
     SCREEN.blit(text, text_rect)
 
 
