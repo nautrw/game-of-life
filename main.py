@@ -34,6 +34,7 @@ interval_ms = 125
 #                   1/s   2/s  4/s  8/s  16/s  32/s   64/s
 INTERVAL_PRESETS = [1000, 500, 250, 125, 62.5, 31.25, 15.625]
 
+
 def write_statusline(board, sim_running):
     text = FONT.render(
         f"{'RUNNING' if sim_running else 'PAUSED'} | "
@@ -41,11 +42,12 @@ def write_statusline(board, sim_running):
         f"Generation: {board.generation} | Theme: {theme_index}",
         True,
         "white",
-        THEMES[theme_index]["dead_color"]
+        THEMES[theme_index]["dead_color"],
     )
     text_rect = text.get_rect()
     text_rect.topleft = (0, 0)
     SCREEN.blit(text, text_rect)
+
 
 def write_keybinds():
     text = FONT.render(
@@ -60,11 +62,12 @@ def write_keybinds():
         "s - Toggle statusline \n",
         True,
         "white",
-        THEMES[theme_index]["dead_color"]
+        THEMES[theme_index]["dead_color"],
     )
     text_rect = text.get_rect()
     text_rect.bottomleft = (0, 600)
     SCREEN.blit(text, text_rect)
+
 
 while running:
     mx, my = pygame.mouse.get_pos()
@@ -133,7 +136,7 @@ while running:
 
     if statusline:
         write_statusline(board, sim_running)
-    
+
     if keybinds:
         write_keybinds()
 
