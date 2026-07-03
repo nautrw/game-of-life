@@ -26,6 +26,7 @@ dragging_right = False
 sim_running = False
 grid_width = 1
 theme_index = 0
+statusline = True
 
 
 def write_statusline(board, sim_running):
@@ -92,6 +93,8 @@ while running:
             # ---------- Simulate 1 Generation ----------
             elif event.key == pygame.K_n:
                 board.simulate()
+            elif event.key == pygame.K_s:
+                statusline = not statusline
 
         if dragging_left:
             board.click(mx, my)
@@ -103,7 +106,9 @@ while running:
 
     theme_colors = THEMES[theme_index]
     board.draw(SCREEN, border_width=grid_width, **theme_colors)
-    write_statusline(board, sim_running)
+
+    if statusline:
+        write_statusline(board, sim_running)
 
     pygame.display.flip()
     clock.tick(FPS)
