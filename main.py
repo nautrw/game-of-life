@@ -61,6 +61,7 @@ def write_statusline(board, sim_running):
 def write_keybinds():
     text = FONT.render(
         "Left/Right Mouse - Set cell alive/dead \n"
+        "Hold Shift+Left Mouse to set cell dead \n"
         "Space - Toggle simulation pause \n"
         "k - Toggle this message \n"
         "c - Clear board \n"
