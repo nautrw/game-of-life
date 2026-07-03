@@ -8,6 +8,7 @@ CELL_SIZE = 20
 GRID_COLOR = (50, 50, 50)
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
+FPS = 120
 
 pygame.init()
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -15,8 +16,6 @@ ICON = pygame.image.load(f"assets/icon{random.randint(1, 9)}.png")
 pygame.display.set_caption("The game of life... Now with colors!")
 pygame.display.set_icon(ICON)
 clock = pygame.time.Clock()
-FPS = 8
-SPEED_PRESETS = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 FONT = pygame.font.Font("freesansbold.ttf", 10)
 
 running = True
@@ -28,10 +27,16 @@ grid_width = 1
 theme_index = 0
 statusline = True
 
+dt = 0
+interval_counter = 0
+interval_ms = 125
+#                   1/s   2/s  4/s  8/s  16/s  32/s   64/s
+INTERVAL_PRESETS = [1000, 500, 250, 125, 62.5, 31.25, 15.625]
 
 def write_statusline(board, sim_running):
     text = FONT.render(
-        f"{'RUNNING' if sim_running else 'PAUSED'} | FPS: {FPS} |"
+        f"{'RUNNING' if sim_running else 'PAUSED'} | "
+        f"Speed: {1000 / interval_ms:.0f} updates/sec | "
         f"Generation: {board.generation} | Theme: {theme_index}",
         True,
         "white",
@@ -68,10 +73,6 @@ while running:
                 board.clear()
                 board.generation = 0
             # ---------- Speed Settings ----------
-            elif event.key == pygame.K_EQUALS:
-                FPS += 1
-            elif event.key == pygame.K_MINUS:
-                FPS -= 1 if FPS > 1 else 0
             elif event.key in (
                 pygame.K_1,
                 pygame.K_2,
@@ -80,10 +81,8 @@ while running:
                 pygame.K_5,
                 pygame.K_6,
                 pygame.K_7,
-                pygame.K_8,
-                pygame.K_9,
             ):
-                FPS = SPEED_PRESETS[int(pygame.key.name(event.key)) - 1]
+                interval_ms = INTERVAL_PRESETS[int(pygame.key.name(event.key)) - 1]
             # ---------- Grid Settings ----------
             elif event.key == pygame.K_g:
                 grid_width = 0 if grid_width == 1 else 1
@@ -102,8 +101,9 @@ while running:
         elif dragging_right:
             board.click(mx, my, False)
 
-    if sim_running:
+    if sim_running and interval_counter >= interval_ms:
         board.simulate()
+        interval_counter = 0
 
     theme_colors = THEMES[theme_index]
     board.draw(SCREEN, border_width=grid_width, **theme_colors)
@@ -112,6 +112,7 @@ while running:
         write_statusline(board, sim_running)
 
     pygame.display.flip()
-    clock.tick(FPS)
+    dt = clock.tick(FPS)
+    interval_counter += dt
 
 pygame.quit()
